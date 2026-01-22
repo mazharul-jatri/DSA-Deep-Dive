@@ -17,7 +17,7 @@ This repo is not about grinding numbers — it’s about **clarity, correctness,
 
 ## 🧠 What’s inside
 
-Problems are organized by **data structure / topic**, not by difficulty or day count.
+Problems are organized by **data structure / topic**,  by difficulty of Leetcode.
 
 
 ---
@@ -58,7 +58,7 @@ This repository will grow organically as concepts are mastered.
 ## 🔗 Profiles
 
 - **GitHub:** https://github.com/mazharul-webbuilder
-- **LeetCode:** *(add your profile link here)*
+- **LeetCode:** https://leetcode.com/u/mazharulislam1998r/
 
 ---
 
