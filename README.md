@@ -1,4 +1,4 @@
-# DSA Deep Dive 🚀
+# DSA Deep Dive
 
 A focused repository for mastering **Data Structures & Algorithms** through deep understanding and consistent problem solving.
 
