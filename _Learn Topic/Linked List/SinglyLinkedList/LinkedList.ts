@@ -15,6 +15,7 @@ export class LinkedList<T> {
     /**
      * Adds a new value to the end of the list.
      * Time Complexity: O(n) - we must traverse the entire list to find the end.
+     * Space Complexity: O(1)
      */
     append(value: T): void {
         const newNode = new Node(value);
@@ -40,6 +41,7 @@ export class LinkedList<T> {
     /**
      * Adds a new value to the beginning of the list.
      * Time Complexity: O(1) - constant time operation.
+     * Space Complexity: O(1)
      */
     prepend(value: T): void {
         const newNode = new Node(value);
@@ -55,6 +57,7 @@ export class LinkedList<T> {
     /**
      * Deletes the first occurrence of a value from the list.
      * Time Complexity: O(n) - worst case we traverse the whole list.
+     * Space Complexity: O(1)
      */
     delete(value: T): void {
         if (!this.head) return;
@@ -77,6 +80,67 @@ export class LinkedList<T> {
             }
             current = current.next;
         }
+    }
+
+    /**
+     * Inserts a value at a specific index.
+     * Time Complexity: O(n) - we might need to traverse to the index.
+     * Space Complexity: O(1)
+     */
+    insertAt(index: number, value: T): void {
+        if (index < 0 || index > this._size) {
+            throw new Error("Index out of bounds");
+        }
+
+        if (index === 0) {
+            this.prepend(value);
+            return;
+        }
+
+        const newNode = new Node(value);
+        let current = this.head;
+        for (let i = 0; i < index - 1; i++) {
+            current = current!.next;
+        }
+
+        newNode.next = current!.next;
+        current!.next = newNode;
+        this._size++;
+    }
+
+    /**
+     * Deletes a node at a specific index.
+     * Time Complexity: O(n) - we might need to traverse to the index.
+     * Space Complexity: O(1)
+     */
+    deleteAt(index: number): T | null {
+        if (index < 0 || index >= this._size) {
+            return null;
+        }
+
+        if (index === 0) {
+            if (this.head) {
+                const value = this.head.value;
+                this.head = this.head.next;
+                this._size--;
+                return value;
+            }
+            return null;
+        }
+
+        let current = this.head;
+        for (let i = 0; i < index - 1; i++) {
+            current = current!.next;
+        }
+
+        const deletedNode = current!.next;
+        if (deletedNode) {
+            current!.next = deletedNode.next;
+            this._size--;
+            return deletedNode.value;
+        }
+
+        return null;
     }
 
     /**

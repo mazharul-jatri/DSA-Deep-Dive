@@ -51,6 +51,8 @@ export class CircularLinkedList<T> {
 
     /**
      * Deletes the first occurrence of a value.
+     * Time Complexity: O(n)
+     * Space Complexity: O(1)
      */
     delete(value: T): void {
         if (!this.head) return;
@@ -78,6 +80,85 @@ export class CircularLinkedList<T> {
             prev = current;
             current = current.next!;
         } while (current !== this.head);
+    }
+
+    /**
+     * Inserts a value at a specific index.
+     * Time Complexity: O(n)
+     * Space Complexity: O(1)
+     */
+    insertAt(index: number, value: T): void {
+        if (index < 0 || index > this._size) {
+            throw new Error("Index out of bounds");
+        }
+
+        if (index === 0) {
+            this.prepend(value);
+            return;
+        }
+
+        if (index === this._size) {
+            this.append(value);
+            return;
+        }
+
+        const newNode = new Node(value);
+        let current = this.head;
+        for (let i = 0; i < index - 1; i++) {
+            current = current!.next;
+        }
+
+        newNode.next = current!.next;
+        current!.next = newNode;
+        this._size++;
+    }
+
+    /**
+     * Deletes a node at a specific index.
+     * Time Complexity: O(n)
+     * Space Complexity: O(1)
+     */
+    deleteAt(index: number): T | null {
+        if (index < 0 || index >= this._size) {
+            return null;
+        }
+
+        if (index === 0) {
+            if (!this.head) return null;
+            const value = this.head.value;
+            if (this._size === 1) {
+                this.head = null;
+                this.tail = null;
+            } else {
+                this.head = this.head.next;
+                if (this.tail) {
+                    this.tail.next = this.head;
+                }
+            }
+            this._size--;
+            return value;
+        }
+
+        let current = this.head;
+        let prev: Node<T> | null = null;
+        for (let i = 0; i < index; i++) {
+            prev = current;
+            current = current!.next;
+        }
+
+        if (current) {
+            const value = current.value;
+            if (prev) {
+                prev.next = current.next;
+            }
+            if (current === this.tail) {
+                this.tail = prev;
+            }
+            this._size--;
+            return value;
+        }
+
+        return null;
     }
 
     /**
