@@ -39,4 +39,16 @@ export class LinkedList<T> {
         console.log(output.join(' -> ') + ' -> null');
     }
 
+    find(arg: T): Node<T> {
+        if (this.head === null) {
+            return null;
+        }
+        let current = this.head
+        while (current.next){
+            if (current.value === arg){
+                return current;
+            }
+            current = current.next
+        }
+    }
 }
