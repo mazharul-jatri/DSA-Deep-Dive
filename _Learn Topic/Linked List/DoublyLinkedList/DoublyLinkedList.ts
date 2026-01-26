@@ -51,6 +51,7 @@ export class DoublyLinkedList<T> {
     /**
      * Deletes the first occurrence of a value.
      * Time Complexity: O(n)
+     * Space Complexity: O(1)
      */
     delete(value: T): void {
         if (!this.head) return;
@@ -83,6 +84,99 @@ export class DoublyLinkedList<T> {
             }
             current = current.next;
         }
+    }
+
+    /**
+     * Inserts a value at a specific index.
+     * Time Complexity: O(n) - we might need to traverse to the index.
+     * Space Complexity: O(1)
+     */
+    insertAt(index: number, value: T): void {
+        if (index < 0 || index > this._size) {
+            throw new Error("Index out of bounds");
+        }
+
+        if (index === 0) {
+            this.prepend(value);
+            return;
+        }
+
+        if (index === this._size) {
+            this.append(value);
+            return;
+        }
+
+        const newNode = new DoublyNode(value);
+        let current = this.head;
+        for (let i = 0; i < index; i++) {
+            current = current!.next;
+        }
+
+        // Insert before current
+        newNode.next = current;
+        newNode.prev = current!.prev;
+        if (current!.prev) {
+            current!.prev.next = newNode;
+        }
+        current!.prev = newNode;
+
+        this._size++;
+    }
+
+    /**
+     * Deletes a node at a specific index.
+     * Time Complexity: O(n) - we might need to traverse to the index.
+     * Space Complexity: O(1)
+     */
+    deleteAt(index: number): T | null {
+        if (index < 0 || index >= this._size) {
+            return null;
+        }
+
+        let current = this.head;
+
+        if (index === 0) {
+            if (this.head) {
+                const value = this.head.value;
+                this.head = this.head.next;
+                if (this.head) {
+                    this.head.prev = null;
+                } else {
+                    this.tail = null;
+                }
+                this._size--;
+                return value;
+            }
+            return null;
+        }
+
+        if (index === this._size - 1) {
+            if (this.tail) {
+                const value = this.tail.value;
+                this.tail = this.tail.prev;
+                if (this.tail) {
+                    this.tail.next = null;
+                } else {
+                    this.head = null;
+                }
+                this._size--;
+                return value;
+            }
+            return null;
+        }
+
+        for (let i = 0; i < index; i++) {
+            current = current!.next;
+        }
+
+        if (current) {
+            if (current.prev) current.prev.next = current.next;
+            if (current.next) current.next.prev = current.prev;
+            this._size--;
+            return current.value;
+        }
+
+        return null;
     }
 
     /**
